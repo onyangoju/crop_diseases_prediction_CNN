@@ -910,35 +910,42 @@ elif st.session_state.page == "Disease Detection":
             import numpy as np
             import random
             import time
-            
-                       # ========== ACTUAL MODEL PREDICTION ==========
             import tensorflow as tf
             from tensorflow import keras
             from tensorflow.keras.preprocessing import image
-            import numpy as np
             
             # Set TF environment (match your training setup)
             os.environ["TF_USE_LEGACY_KERAS"] = "1"
             os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
             
+            BASE_DIR = Path(__file__).parent
+            
             @st.cache_resource
             def load_model():
-                """Load trained MobileNetV2 from deployment folder"""
-                # Use the deployment model (or change to mobilenetv2_best.keras)
-                model_path = "D:/CAPSTONE REVISED/models/deployment/NeuralNest_MobileNetV2.keras"
+                model_path = BASE_DIR / "models" / "deployment" / "NeuralNest_MobileNetV2.keras"
+                
+                if not model_path.exists():
+                    st.error(f"Model not found at {model_path}")
+                    return None
+                
                 return keras.models.load_model(model_path)
             
             @st.cache_resource
             def load_class_names():
-                """Load class names"""
                 import json
-                with open("D:/CAPSTONE REVISED/models/deployment/class_names.json", 'r') as f:
+                class_path = BASE_DIR / "models" / "deployment" / "class_names.json"
+                
+                if not class_path.exists():
+                    st.error(f"Class file not found at {class_path}")
+                    return []
+                
+                with open(class_path, 'r') as f:
                     return json.load(f)
             
             # Load once
             model = load_model()
             CLASS_NAMES = load_class_names()
-            
+        
             with st.spinner("🧠 Analyzing image with Neural Network..."):
                 progress_bar = st.progress(0)
                 
