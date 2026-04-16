@@ -13,6 +13,7 @@ os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 # Use tf_keras instead of tf.keras for compatibility
 import tf_keras as keras
 import tensorflow as tf
+from tf_keras.preprocessing import image as keras_image
 
 # Now import everything else
 import streamlit as st
@@ -903,21 +904,21 @@ elif st.session_state.page == "Disease Detection":
             width, height = image.size
             quality_status = "✅ Good Quality" if min(width, height) >= 224 else "⚠️ Low Resolution"
             st.info(f"{quality_status} ({width}×{height}px)")
-            
-            st.markdown('<div style="margin-top: 25px;"></div>', unsafe_allow_html=True)
-            analyze = st.button(
-                "🔍 Analyze Disease",
-                use_container_width=True,
-                disabled=(uploaded_file is None),
-                type="primary"
-            )
-            
-            st.markdown('</div>', unsafe_allow_html=True)
         
-        with col2:
-            if uploaded_file and analyze:
-                from tf_keras.preprocessing import image  # ONLY this import needed here
-            
+        st.markdown('<div style="margin-top: 25px;"></div>', unsafe_allow_html=True)
+        analyze = st.button(
+            "🔍 Analyze Disease",
+            use_container_width=True,
+            disabled=(uploaded_file is None),
+            type="primary"
+        )
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    # col2 is at the SAME level as col1, NOT inside col1
+    with col2:
+        # ALL the processing code must be INSIDE this if block
+        if uploaded_file and analyze:
             BASE_DIR = Path(__file__).parent
             
             @st.cache_resource
@@ -928,7 +929,7 @@ elif st.session_state.page == "Disease Detection":
                     st.error(f"Model not found at {model_path}")
                     return None
                 
-                return keras.models.load_model(model_path)  # uses 'keras' from top import
+                return keras.models.load_model(model_path)
             
             @st.cache_resource
             def load_class_names():
@@ -950,8 +951,8 @@ elif st.session_state.page == "Disease Detection":
                 progress_bar = st.progress(0)
                 
                 # 1. Load and preprocess image (224x224, normalize)
-                img = image.load_img(uploaded_file, target_size=(224, 224))
-                img_array = image.img_to_array(img)
+                img = keras_image.load_img(uploaded_file, target_size=(224, 224))
+                img_array = keras_image.img_to_array(img)
                 img_array = np.expand_dims(img_array, axis=0) / 255.0
                 
                 progress_bar.progress(50)
