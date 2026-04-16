@@ -10,11 +10,20 @@ os.environ["KERAS_BACKEND"] = "tensorflow"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
+# Use tf_keras instead of tf.keras for compatibility
+import tf_keras as keras
+import tensorflow as tf
+
+# Now import everything else
 import streamlit as st
 import base64
 import json
 from pathlib import Path
 from datetime import datetime
+import numpy as np
+import random
+import time
+from PIL import Image
 
 # ===============
 # SESSION STATE INITIALIZATION
@@ -894,41 +903,32 @@ elif st.session_state.page == "Disease Detection":
             width, height = image.size
             quality_status = "✅ Good Quality" if min(width, height) >= 224 else "⚠️ Low Resolution"
             st.info(f"{quality_status} ({width}×{height}px)")
-        
-        st.markdown('<div style="margin-top: 25px;"></div>', unsafe_allow_html=True)
-        analyze = st.button(
-            "🔍 Analyze Disease",
-            use_container_width=True,
-            disabled=(uploaded_file is None),
-            type="primary"
-        )
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-    
-    with col2:
-        if uploaded_file and analyze:
-            import numpy as np
-            import random
-            import time
-            import tensorflow as tf
-            from tensorflow import keras
-            from tensorflow.keras.preprocessing import image
             
-            # Set TF environment (match your training setup)
-            os.environ["TF_USE_LEGACY_KERAS"] = "1"
-            os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+            st.markdown('<div style="margin-top: 25px;"></div>', unsafe_allow_html=True)
+            analyze = st.button(
+                "🔍 Analyze Disease",
+                use_container_width=True,
+                disabled=(uploaded_file is None),
+                type="primary"
+            )
+            
+            st.markdown('</div>', unsafe_allow_html=True)
+        
+        with col2:
+            if uploaded_file and analyze:
+                from tf_keras.preprocessing import image  # ONLY this import needed here
             
             BASE_DIR = Path(__file__).parent
             
             @st.cache_resource
             def load_model():
-                model_path = BASE_DIR / "models" / "deployment" / "mobilenetv2_best.h5"
+                model_path = BASE_DIR / "models" / "deployment" / "NeuralNest_MobileNetV2.keras"
                 
                 if not model_path.exists():
                     st.error(f"Model not found at {model_path}")
                     return None
                 
-                return keras.models.load_model(model_path)
+                return keras.models.load_model(model_path)  # uses 'keras' from top import
             
             @st.cache_resource
             def load_class_names():
@@ -1051,7 +1051,6 @@ elif st.session_state.page == "Disease Detection":
                 st.markdown('</div>', unsafe_allow_html=True)
             
             st.caption(f"Analysis completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-
 # ===============
 # PAGE: REPORTS
 # ===============
