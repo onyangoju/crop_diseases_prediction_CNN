@@ -175,44 +175,64 @@ Access at `http://localhost:8501`
 
 ```
 crop_disease_prediction_CNN/
+├── 📁 assets/                    # Project assets
+│   ├── augmentation_examples.png
+│   ├── background.jpg
+│   ├── eda_class_distribution.png
+│   ├── eda_image_properties.png
+│   ├── eda_sample_images.png
+│   ├── image.png
+│   └── logo.png
 │
-├── app.py                      # Streamlit application
-├── requirements.txt            # Python dependencies
-├── README.md                   # This file
+├── 📁 Crop Diseases Dataset/     # Raw dataset
+│   └── Info.txt
 │
-├── models/
-│   └── deployment/             # Production models
-│       ├── NeuralNest_MobileNetV2.keras
-│       ├── class_names.json
-│       ├── advisory_rules.json
-│       └── label_encoder.pkl
+├── 📁 documentation/             # Project documentation
+│   ├── CAPSTONE NEURALNEST.docx
+│   ├── NeuralNest Presentation.pptx
+│   ├── NeuralNest Report.docx
+│   └── NeuralNest Report.pdf
 │
-├── data/
-│   ├── processed/              # Cleaned datasets
-│   │   ├── train_manifest.csv
-│   │   ├── val_manifest.csv
-│   │   ├── test_manifest.csv
-│   │   └── metadata.json
+├── 📁 logs/                      # Training logs
+│   ├── mobilenetv2_fine/
+│   └── mobilenetv2_phase1/
+│
+├── 📁 models/                    # All model files
+│   ├── 📁 deployment/            # Production-ready models
+│   │   ├── NeuralNest_MobileNetV2_savedmodel/
+│   │   ├── advisory_rules.json
+│   │   ├── class_names.json
+│   │   ├── label_encoder.pkl
+│   │   ├── mobilenetv2_best.h5
+│   │   ├── model_info.json
+│   │   ├── NeuralNest_MobileNetV2.h5
+│   │   ├── NeuralNest_MobileNetV2.keras
+│   │   └── NeuralNest_MobileNetV2.tflite
 │   │
-│   └── splits/                 # Organized images
-│       ├── train/
-│       ├── val/
-│       └── test/
+│   ├── mobilenetv2_best.h5       # Training checkpoint (best)
+│   ├── mobilenetv2_best.keras    # Keras format (best)
+│   ├── mobilenetv2_final.h5      # Final training checkpoint
+│   ├── mobilenetv2_final.keras   # Final Keras format
+│   ├── mobilenetv2_phase1_best.h5     # Phase 1 best checkpoint
+│   └── mobilenetv2_phase1_best.keras # Phase 1 Keras format
 │
-├── notebooks/
-│   ├── 01_eda.ipynb           # Exploratory data analysis
-│   ├── 02_preprocessing.ipynb # Data preprocessing
-│   ├── 03_model_training.ipynb# Model training & evaluation
-│   └── 04_deployment.ipynb    # Deployment preparation
+├── 📁 notebooks/                 # Jupyter notebooks
+│   ├── data_preparation.ipynb
+│   └── .ipynb_checkpoints/
 │
-├── src/
-│   ├── preprocessing.py       # Image preprocessing utilities
-│   ├── model.py               # Model architectures
-│   ├── train.py               # Training script
-│   └── utils.py               # Helper functions
-│
-└── assets/
-    └── logo.png               # Project logo
+├── 📁 src/                       # Source code
+│   ├── 📁 .ipynb_checkpoints/
+│   ├── confusion_matrix_mobilenetv2.png
+│   ├── model_training.py        # Training script
+│   └── mobilenetv2_report.csv   # Training report
+│ 
+├── app.py                   # Streamlit application
+├── 📄 README.md                 # Project documentation
+├── 📄 requirements.txt           # Python dependencies
+├── 📄 requirements-streamlit.txt # Streamlit-specific requirements
+├── 📄 setup.bat                # Windows setup script
+├── 📄 runtime.txt                # Runtime configuration
+└── 📄 kaggle.json                # Kaggle API credentials
 ```
 
 ---
