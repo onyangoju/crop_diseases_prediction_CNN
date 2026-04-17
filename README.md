@@ -258,6 +258,16 @@ matplotlib>=3.5.0
 ```
 
 ---
+#   Deployment Requirements 
+streamlit
+tensorflow==2.21.0
+tf_keras==2.21.0
+pillow
+numpy
+pandas
+plotly
+opencv-python
+protobuf
 
 ## Team
 
@@ -265,7 +275,7 @@ matplotlib>=3.5.0
 
 | Name | Role |
 |------|------|
-| Dave Karanja | Lead Developer & ML Engineer |
+| Dave Karanja | ML Engineer |
 | Jedidiah | Data Scientist |
 | Pauline | UI/UX Developer |
 
