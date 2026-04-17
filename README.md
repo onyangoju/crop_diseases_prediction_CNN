@@ -168,7 +168,7 @@ streamlit run app.py
 ```
 
 Access at `http://localhost:8501`
-
+Hosted at `https://cropdiseasespredictioncnn-d2sxrpgrmhfgxbcotwiczz.streamlit.app/`
 ---
 
 ## Project Structure
@@ -279,6 +279,7 @@ matplotlib>=3.5.0
 
 ---
 #   Deployment Requirements 
+```
 streamlit
 tensorflow==2.21.0
 tf_keras==2.21.0
@@ -288,6 +289,7 @@ pandas
 plotly
 opencv-python
 protobuf
+```
 
 ## Team
 
